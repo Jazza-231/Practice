@@ -121,22 +121,27 @@ Example `src/routes/+layout.svelte`:
 </style>
 ```
 
-We will now create the global.scss file. In essence, as we are controlling the theme based off `data-theme` on the html element, we need to target that element in our css selector. We can do this with `html[data-theme]`.
+We will now create the global.scss file. In essence, as we are controlling the theme based off `data-theme` on the html element, we need to target that element in our css selector. We can do this with `html[data-theme]`. Because CSS is scoped by default, we need to wrap our selectors in `:global`, otherwise sveltekit will discard the CSS, because it thinks it is unused.
 
 Example `src/global.scss`
 
 ```scss
-html {
-    // This is the default, and hence light, theme.
-    --bg: white;
-    --text: black;
-    --ect-ect;
+:global(html) {
+  // This is the default, and hence light, theme.
+  --bg: white;
+  --text: black;
+  --ect-ect: red;
 }
 
-html[data-theme="dark"]{
-    --bg: #222;
-    --text: white;
-    --ect-ect
+:global(html[data-theme="dark"]) {
+  --bg: #222;
+  --text: white;
+  --ect-ect: red;
+}
+
+:global(body) {
+  background-color: var(--bg);
+  color: var(--text);
 }
 ```
 
